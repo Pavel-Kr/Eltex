@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <malloc.h>
-char** split(char* str){
+char** split(char* str, int* n){
     int i=0;
     int spaces=0;
     while(str[i]!=0){
@@ -25,16 +25,18 @@ char** split(char* str){
         }
         i++;
     }
+    *n=spaces+1;
     res[j]=NULL;
     return res;
 }
 int main(){
     char cmd[200];
+    int len=0;
     int status;
     while(1){
         printf("$ ");
         fgets(cmd,199,stdin);
-        char** args=split(cmd);
+        char** args=split(cmd,&len);
         pid_t pid=fork();
         if(pid==0){
             if(execvp(args[0],args)==-1){
@@ -44,5 +46,9 @@ int main(){
         else{
             wait(&status);
         }
+        for(int i=0;i<len;i++){
+            free(args[i]);
+        }
+        free(args);
     }
 }
