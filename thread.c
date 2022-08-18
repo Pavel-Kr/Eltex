@@ -1,6 +1,6 @@
 #include <pthread.h>
 #include <stdio.h>
-int a;
+int a=0;
 void* func(void* arg){
     for(int i=0;i<1000000;i++){
         int tmp=a;
