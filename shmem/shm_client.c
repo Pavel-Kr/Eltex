@@ -17,10 +17,6 @@ struct message{
     char text[1000];
     struct user sender;
 };
-/*struct queues{
-    mqd_t stoc;
-    mqd_t service;
-}queues;*/
 struct shmem{
     char name[20];
     int desc;
@@ -28,22 +24,6 @@ struct shmem{
     char sem_name[20];
     struct message* msg_ptr;
 }service;
-char* itos(int num){
-    char* str=malloc(10);
-    int i=0;
-    while(num>0){
-        str[i]=num%10+'0';
-        num/=10;
-        i++;
-    }
-    for(int j=0;j<i/2;j++){
-        char tmp=str[j];
-        str[j]=str[i-j-1];
-        str[i-j-1]=tmp;
-    }
-    str[i]=0;
-    return str;
-}
 char** split(char* str, int* n){
     int i=0;
     int spaces=0;
@@ -194,7 +174,6 @@ int main(){
     }
     char new_msg[50];
     sprintf(new_msg,"New %s %s",ans_mem_name,ans_sem_name);
-    //strcat(new_msg,ans_mem_name);
     struct message new;
     strcpy(new.text,new_msg);
     new.sender=user;
