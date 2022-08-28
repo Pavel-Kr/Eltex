@@ -19,7 +19,15 @@ int main(){
         exit(EXIT_FAILURE);
     }
     char* str12=mmap(NULL,10,PROT_READ,MAP_SHARED,shm12,0);
+    if(str12==MAP_FAILED){
+        perror("mmap 12");
+        exit(EXIT_FAILURE);
+    }
     sem_t* sem12=sem_open("/sem12",O_RDWR|O_CREAT,S_IRWXU,0);
+    if(sem12==SEM_FAILED){
+        perror("sem_open 12");
+        exit(EXIT_FAILURE);
+    }
     sem_wait(sem12);
     printf("%s\n",str12);
     sem_post(sem12);
@@ -33,7 +41,15 @@ int main(){
         exit(EXIT_FAILURE);
     }
     char* str21=mmap(NULL,10,PROT_WRITE,MAP_SHARED,shm21,0);
+    if(str21==MAP_FAILED){
+        perror("mmap 21");
+        exit(EXIT_FAILURE);
+    }
     sem_t* sem21=sem_open("/sem21",O_RDWR|O_CREAT,S_IRWXU,0);
+    if(sem21==SEM_FAILED){
+        perror("sem_open 21");
+        exit(EXIT_FAILURE);
+    }
     strcpy(str21,"Hi!");
     sem_post(sem21);
     sem_close(sem21);
