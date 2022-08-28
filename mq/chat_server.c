@@ -23,7 +23,7 @@ struct mq{
     char stoc_name[20];
     char deleted;
 };
-char** split(char* str){
+char** split(char* str, int* n){
     int i=0;
     int spaces=0;
     while(str[i]!=0){
@@ -47,6 +47,7 @@ char** split(char* str){
         res[j][k]=0;
         i++;
     }
+    *n=spaces+1;
     return res;
 }
 struct mq* users;
@@ -75,7 +76,8 @@ void* service(void* arg){
         int prio;
         mq_receive(srv_queue,(char*)&msg,sizeof(struct message),&prio);
         printf("%s(%d): %s %d\n",msg.sender.name,msg.sender.id,msg.msg,prio);
-        char** msg_split=split(msg.msg);
+        int msg_len;
+        char** msg_split=split(msg.msg,&msg_len);
         if(strcmp(msg_split[0],"New")==0){
             char stoc_name[20]="/queue";
             char* id_str=itos(msg.sender.id);
@@ -125,6 +127,10 @@ void* service(void* arg){
                 }
             }
         }
+        for(int i=0;i<msg_len;i++){
+            free(msg_split[i]);
+        }
+        free(msg_split);
     }
 }
 void* user_chat(void* arg){

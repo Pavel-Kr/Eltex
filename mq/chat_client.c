@@ -36,7 +36,7 @@ char* itos(int num){
     str[i]=0;
     return str;
 }
-char** split(char* str){
+char** split(char* str, int* n){
     int i=0;
     int spaces=0;
     while(str[i]!=0){
@@ -60,6 +60,7 @@ char** split(char* str){
         res[j][k]=0;
         i++;
     }
+    *n=spaces+1;
     return res;
 }
 void* send(void* arg){
@@ -143,7 +144,8 @@ int main(){
     mq_send(srv_queue,(char*)&new,sizeof(new),1);
     int prio;
     mq_receive(ans_queue,(char*)&new,sizeof(new),&prio);
-    char** queue_names=split(new.msg);
+    int msg_len;
+    char** queue_names=split(new.msg,&msg_len);
     char stoc_name[20];
     strcpy(stoc_name,queue_names[1]);
     mq_unlink(ans_queue_name);
@@ -152,5 +154,9 @@ int main(){
     pthread_create(&receiver,NULL,receive,stoc_name);
     pthread_join(sender,NULL);
     pthread_cancel(receiver);
+    for(int i=0;i<msg_len;i++){
+        free(queue_names[i]);
+    }
+    free(queue_names);
     exit(EXIT_SUCCESS);
 }
