@@ -13,10 +13,6 @@ int main(){
         perror("socket");
         exit(EXIT_FAILURE);
     }
-    /*if(fchmod(sockfd,S_IRWXU)==-1){
-        perror("chmod");
-        exit(EXIT_FAILURE);
-    }*/
     struct sockaddr_un serv;
     serv.sun_family=AF_LOCAL;
     strcpy(serv.sun_path,"sock_ls");
