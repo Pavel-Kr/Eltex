@@ -18,11 +18,7 @@ int main(){
     memset(&serv,0,sizeof(serv));
     serv.sin_family=AF_INET;
     serv.sin_port=htons(4000);
-    serv.sin_addr.s_addr=INADDR_LOOPBACK;
-    /*if(inet_aton("10.0.2.20",&serv.sin_addr)==0){
-        perror("inet_aton");
-        exit(EXIT_FAILURE);
-    }*/
+    serv.sin_addr.s_addr=htonl(INADDR_LOOPBACK);
     if(bind(sockfd,(struct sockaddr*)&serv,sizeof(struct sockaddr_in))==-1){
         perror("bind");
         exit(EXIT_FAILURE);
