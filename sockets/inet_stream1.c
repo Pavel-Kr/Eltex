@@ -46,6 +46,5 @@ int main(){
     printf("%s\n",str);
     close(clientfd);
     close(sockfd);
-    unlink("sock_is");
     exit(EXIT_SUCCESS);
 }
