@@ -193,50 +193,6 @@ void* service(void* arg){
             continue;
         }
         pthread_detach(adder);
-        //int i;
-        /*for(i=0;i<size;i++){
-            if(!handlers[i].active){
-                if(write(handlers[i].pipe_fd[1],&new_user,sizeof(new_user))==-1){
-                    perror("write user");
-                }
-                break;
-            }
-        }
-        if(i>=size){
-            handlers=realloc(handlers,sizeof(struct user_handler)*size*2);
-            size*=2;
-            for(int j=i;j<size;j++){
-                if(pipe(handlers[i].pipe_fd)==-1){
-                    perror("pipe");
-                    exit(EXIT_FAILURE);
-                }
-                pthread_t tid;
-                if(pthread_create(&tid,NULL,user_chat,&handlers[i])!=0){
-                    perror("pthread_create");
-                    exit(EXIT_FAILURE);
-                }
-                handlers[i].tid=tid;
-                handlers[i].active=0;
-            }
-            if(write(handlers[i].pipe_fd[1],&new_user,sizeof(new_user))==-1){
-                perror("write user");
-            }
-        }*/
-        /*for(i=0;i<users_count;i++){
-            if(users[i].deleted==1){
-                users[i]=new_user;
-                active_users_count++;
-                break;
-            }
-        }
-        if(i==users_count){
-            if(active_users_count>=size){
-                users=realloc(users,size*2);
-                size*=2;
-            }
-            users[users_count++]=new_user;
-            active_users_count++;
-        }*/
     }
 }
 int main(){
