@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <netinet/ip.h>
+#include <arpa/inet.h>
 #include <unistd.h>
 #include <string.h>
 void* recv_msg(void* arg){
